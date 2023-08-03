@@ -45,6 +45,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 if ( ! class_exists( 'ChatDope' ) ) {
 	class ChatDope {
+
 		/**
 		 * ChatDope constructor.
 		 *
@@ -55,7 +56,9 @@ if ( ! class_exists( 'ChatDope' ) ) {
 		public function __construct() {
 			$this->load_dependencies(); // Load required files and classes
 			$this->define_admin_hooks(); // Set up admin-related hooks
+			$this->define_frontend_hooks(); // Set up frontend-related hooks
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts_styles' ) ); // Enqueue admin scripts and styles
+			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_public_scripts_styles' ) ); // Enqueue public scripts and styles
 		}
 
 		/**
@@ -76,6 +79,17 @@ if ( ! class_exists( 'ChatDope' ) ) {
 		}
 
 		/**
+		 * Enqueue public-facing scripts and styles.
+		 * Includes the CSS and JS files used on the frontend of the site.
+		 *
+		 * @since 1.0.0
+		 */
+		public function enqueue_public_scripts_styles() {
+			wp_enqueue_style( 'chatdope-public-style', plugins_url( 'assets/css/public.css', __FILE__ ) );
+			wp_enqueue_script( 'chatdope-public-script', plugins_url( 'assets/js/public.js', __FILE__ ), array( 'jquery' ), '1.0', true );
+		}
+
+		/**
 		 * Define the admin hooks to manage the ChatDope settings.
 		 * Binds the admin functionalities to the WordPress action hooks.
 		 *
@@ -88,6 +102,16 @@ if ( ! class_exists( 'ChatDope' ) ) {
 		}
 
 		/**
+		 * Define the frontend hooks to manage the ChatDope interface.
+		 * Instantiates the frontend class and binds the necessary frontend functionality.
+		 *
+		 * @since 1.0.0
+		 */
+		private function define_frontend_hooks() {
+			$frontend = new ChatDope_Frontend(); // Instantiate the frontend class
+		}
+
+		/**
 		 * Load the required dependencies for this plugin.
 		 * Includes the necessary files, classes, and sets up hooks for the admin area and the public side of the site.
 		 *
@@ -95,6 +119,7 @@ if ( ! class_exists( 'ChatDope' ) ) {
 		 */
 		private function load_dependencies() {
 			require_once plugin_dir_path( __FILE__ ) . 'inc/class-chatdope-admin.php'; // Include admin class
+			require_once plugin_dir_path( __FILE__ ) . 'inc/class-chatdope-chat-model.php'; // Include chat model class
 		}
 
 		/**
@@ -104,12 +129,28 @@ if ( ! class_exists( 'ChatDope' ) ) {
 		 * @since 1.0.0
 		 */
 		public static function activate() {
-			// Activation code here
+			global $wpdb;
+			$charset_collate = $wpdb->get_charset_collate();
+			$table_name = $wpdb->prefix . 'chatdope_messages';
+
+			$sql = "CREATE TABLE $table_name (
+				chat_id BIGINT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+				session_id VARCHAR(255) NOT NULL,
+				user_id BIGINT(20) UNSIGNED,
+				guest_id VARCHAR(255),
+				message TEXT NOT NULL,
+				timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+				sender ENUM('user', 'guest') NOT NULL,
+				conversation_start_timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+			) $charset_collate;";
+
+			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+			dbDelta( $sql );
 		}
 
 		/**
 		 * Deactivation hook to run when the plugin is deactivated.
-		 * Implement any required logic here for when the plugin is disabled.
+		 * Implement any required logic here for cleaning up after the plugin is disabled.
 		 *
 		 * @since 1.0.0
 		 */
@@ -117,6 +158,7 @@ if ( ! class_exists( 'ChatDope' ) ) {
 			// Deactivation code here
 		}
 	}
+
 }
 
 // Initialize ChatDope if class exists
