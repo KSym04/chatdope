@@ -9,7 +9,7 @@
  * Text Domain: chatdope
  * Domain Path: /lang
  * License: GPLv3
- * License URI: https://www.dopethemes.com/GPLv3
+ * License URI: https://www.dopethemes.com/gplv3/
  */
 
 /*

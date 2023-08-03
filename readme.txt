@@ -6,7 +6,7 @@ Tested up to: 6.2.2
 Requires PHP: 7.0
 Stable tag: 1.0.0
 License: GPLv3
-License URI: https://www.dopethemes.com/GPLv3
+License URI: https://www.dopethemes.com/gplv3/
 
 ChatDope is a modern and engaging chat system for WordPress, providing real-time communication capabilities.
 
