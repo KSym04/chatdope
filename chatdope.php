@@ -95,6 +95,7 @@ if ( ! class_exists( 'ChatDope' ) ) {
 		 */
 		private function load_dependencies() {
 			require_once plugin_dir_path( __FILE__ ) . 'inc/class-chatdope-admin.php'; // Include admin class
+			require_once plugin_dir_path( __FILE__ ) . 'inc/class-chatdope-chat-model.php'; // Include chat model class
 		}
 
 		/**
