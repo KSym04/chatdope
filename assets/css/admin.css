@@ -1,0 +1,151 @@
+/**
+ * ChatDope Admin CSS
+ */
+.chatdope-admin {
+	padding: 40px 40px 60px;
+	background-color: #fff;
+	border: 1px solid #e1e4e8;
+	border-radius: 0;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+}
+
+.chatdope-admin__title {
+	font-size: 24px;
+	color: #333;
+	margin-bottom: 20px;
+}
+
+.chatdope-admin__form {
+	margin-top: 20px;
+}
+
+.chatdope-admin__form__submit--special {
+	background-color: #007cba;
+	color: #fff;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 3px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+	font-weight: 600;
+	text-align: center;
+	display: inline-block;
+}
+
+.chatdope-admin__form__submit--special:hover {
+	background-color: #005a87;
+}
+
+/* ChatDope Theme Color Option */
+.chatdope-admin__theme-color__option {
+	display: inline-block;
+	margin-right: 15px;
+	cursor: pointer;
+}
+
+.chatdope-admin__theme-color__input {
+	margin-right: 5px;
+}
+
+.chatdope-admin__theme-color__option--disabled
+	.chatdope-admin__theme-color__label,
+.chatdope-admin__theme-color__option--disabled
+	.chatdope-admin__theme-color__input {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+/* Pro Label for Dark Theme */
+.chatdope-admin__pro-label {
+	color: #e44d26;
+	font-weight: 700;
+	font-size: 10px;
+}
+
+.toplevel_page_chatdope-settings {
+}
+
+/**
+ * Theme Color Options
+ * Styling for the theme color selection in ChatDope plugin settings.
+ */
+.theme-color {
+	display: flex;
+	align-items: center;
+}
+
+.theme-color__option {
+	margin-right: 20px;
+}
+
+.theme-color__label,
+.theme-color__input {
+	cursor: pointer;
+}
+
+.theme-color__input {
+	margin-right: 5px;
+}
+
+.theme-color__pro {
+	font-size: 10px;
+	font-weight: bold;
+	color: #ff5733;
+	background: #ffffff;
+	padding: 4px 6px;
+	border-radius: 4px;
+	margin-left: 8px;
+}
+
+/* Tooltip Trigger */
+.tooltip-trigger {
+	font-size: 12px;
+	cursor: pointer;
+	position: relative;
+	display: inline-block;
+	line-height: 1.4;
+	margin-left: 5px;
+	width: 16px;
+	height: 16px;
+	background-color: #f9f9f9;
+	color: #333333;
+	text-align: center;
+	border-radius: 50%;
+	border: 1px solid #aaaaaa;
+}
+
+.theme-color__tooltip {
+	display: none;
+	position: absolute;
+	bottom: 20px;
+	left: 130%;
+	padding: 5px 10px;
+	max-width: 300px;
+	min-width: 300px;
+	border: 1px solid #aaaaaa;
+	background-color: #ffffff;
+	border-radius: 5px;
+	white-space: normal;
+	font-size: 12px;
+	line-height: 1.5;
+	pointer-events: none;
+	z-index: 1000;
+}
+
+.tooltip-trigger:hover .theme-color__tooltip {
+	display: block;
+}
+
+/* Disabled Option Styling */
+.theme-color__option--disabled .theme-color__label,
+.theme-color__option--disabled .theme-color__input {
+	opacity: 0.8;
+	cursor: not-allowed;
+}
+
+/**
+ * Miscellaneous
+ */
+.toplevel_page_chatdope-settings #wpcontent {
+	padding: 0;
+}
