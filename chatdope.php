@@ -104,7 +104,23 @@ if ( ! class_exists( 'ChatDope' ) ) {
 		 * @since 1.0.0
 		 */
 		public static function activate() {
-			// Activation code here
+			global $wpdb;
+			$charset_collate = $wpdb->get_charset_collate();
+			$table_name = $wpdb->prefix . 'chatdope_messages';
+
+			$sql = "CREATE TABLE $table_name (
+				chat_id BIGINT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+				session_id VARCHAR(255) NOT NULL,
+				user_id BIGINT(20) UNSIGNED,
+				guest_id VARCHAR(255),
+				message TEXT NOT NULL,
+				timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+				sender ENUM('user', 'guest') NOT NULL,
+				conversation_start_timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+			) $charset_collate;";
+
+			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+			dbDelta( $sql );
 		}
 
 		/**
