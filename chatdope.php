@@ -9,7 +9,7 @@
  * Text Domain: chatdope
  * Domain Path: /lang
  * License: GPLv3
- * License URI: https://www.dopethemes.com/GPLv3
+ * License URI: https://www.dopethemes.com/gplv3/
  */
 
 /*
@@ -44,24 +44,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! class_exists( 'ChatDope' ) ) {
     class ChatDope {
         /**
-         * ChatDope constructor.
-         * Initializes the plugin by registering actions and filters.
-         *
-         * @since 1.0.0
-         */
-        public function __construct() {
-            add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts_styles' ) );
-        }
+		 * ChatDope constructor.
+		 * Initializes the plugin by registering actions and filters.
+		 *
+		 * @since 1.0.0
+		 */
+		public function __construct() {
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts_styles' ) );
+		}
 
-        /**
-         * Enqueue necessary scripts and styles for the plugin.
-         *
-         * @since 1.0.0
-         */
-        public function enqueue_scripts_styles() {
-            wp_enqueue_style( 'chatdope-style', plugins_url( 'css/chatdope.css', __FILE__ ) );
-            wp_enqueue_script( 'chatdope-script', plugins_url( 'js/chatdope.js', __FILE__ ), array( 'jquery' ), '1.0', true );
-        }
+		/**
+		 * Enqueue necessary scripts and styles for the admin area.
+		 *
+		 * @since 1.0.0
+		 */
+		public function enqueue_admin_scripts_styles() {
+			wp_enqueue_style( 'chatdope-admin-style', plugins_url( 'assets/css/admin.css', __FILE__ ) );
+			wp_enqueue_script( 'chatdope-admin-script', plugins_url( 'assets/js/admin.js', __FILE__ ), array( 'jquery' ), '1.0', true );
+		}
 
         /**
          * Activation hook to run when the plugin is activated.

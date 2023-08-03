@@ -49,4 +49,4 @@ For additional information, support, and customization inquiries, please visit [
 
 ## License
 
-[GPLv3](https://www.dopethemes.com/GPLv3)
+[GPLv3](https://www.dopethemes.com/gplv3/)
