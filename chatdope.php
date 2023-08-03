@@ -9,7 +9,7 @@
  * Text Domain: chatdope
  * Domain Path: /lang
  * License: GPLv3
- * License URI: license.txt
+ * License URI: https://www.dopethemes.com/GPLv3
  */
 
 /*
@@ -38,7 +38,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Class ChatDope
  * Defines the main functionality for the ChatDope plugin.
- * 
+ *
  * @since 1.0.0
  */
 if ( ! class_exists( 'ChatDope' ) ) {
@@ -46,7 +46,7 @@ if ( ! class_exists( 'ChatDope' ) ) {
         /**
          * ChatDope constructor.
          * Initializes the plugin by registering actions and filters.
-         * 
+         *
          * @since 1.0.0
          */
         public function __construct() {
