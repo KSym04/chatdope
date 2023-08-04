@@ -1,0 +1,1 @@
+jQuery(document).ready((function(o){var t=chatdope_admin_translation.tooltipText,n=o('<sup class="tooltip-trigger">?</sup>'),e=o('<span class="theme-color__tooltip">'+t+"</span>");o('th:contains("Choose Color Theme")').append(n),n.append(e),n.hover((function(){e.show()}),(function(){e.hide()}))}));

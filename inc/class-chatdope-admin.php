@@ -8,6 +8,7 @@
  * @since 1.0.0
  */
 class ChatDope_Admin {
+
     /**
      * Adds the admin menu page for ChatDope settings.
      * Utilizes the WordPress add_menu_page function to create a menu item in the WordPress dashboard.
@@ -102,4 +103,5 @@ class ChatDope_Admin {
 			echo '</div>';
 		echo '</div>';
 	}
+
 }
