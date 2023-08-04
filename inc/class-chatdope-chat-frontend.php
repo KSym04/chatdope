@@ -25,10 +25,17 @@ class ChatDope_Frontend {
 	 * @since 1.0.0
 	 */
 	public function render_chat_interface() {
-		echo '<div id="chatdope-window">';
-			echo '<div id="chatdope-messages"></div>';
-			echo '<textarea id="chatdope-input"></textarea>';
-			echo '<button id="chatdope-send">Send</button>';
+		echo '<div id="chatdope-container">';
+
+		if ( is_user_logged_in() ) {
+			// If user is logged in, render contacts
+		}
+
+		echo '<div id="chatdope-chats"></div>';
+			echo '<div id="chatdope-input-box">';
+				echo '<textarea id="chatdope-input"></textarea>';
+				echo '<button id="chatdope-send">' . esc_html__( 'Send', 'chatdope' ) . '</button>';
+			echo '</div>';
 		echo '</div>';
 	}
 

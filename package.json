@@ -1,0 +1,34 @@
+{
+  "name": "chatdope",
+  "version": "1.0.0",
+  "description": "A modern and engaging chat system for WordPress",
+  "scripts": {
+    "dev": "webpack --mode development --watch",
+    "prod": "webpack --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KSym04/chatdope.git"
+  },
+  "keywords": [
+    "chat"
+  ],
+  "author": "DopeThemes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KSym04/chatdope/issues"
+  },
+  "homepage": "https://github.com/KSym04/chatdope#readme",
+  "devDependencies": {
+    "@babel/core": "^7.22.9",
+    "@babel/preset-env": "^7.22.9",
+    "babel-loader": "^9.1.3",
+    "css-loader": "^6.8.1",
+    "mini-css-extract-plugin": "^2.7.6",
+    "sass": "^1.64.2",
+    "sass-loader": "^13.3.2",
+    "style-loader": "^3.3.3",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
+  }
+}
