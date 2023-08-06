@@ -68,14 +68,14 @@ if ( ! class_exists( 'ChatDope' ) ) {
 		 * @since 1.0.0
 		 */
 		public function enqueue_admin_scripts_styles() {
-			wp_enqueue_style( 'chatdope-admin-style', plugins_url( 'assets/dist/css/backend.css', __FILE__ ) );
-			wp_enqueue_script( 'chatdope-admin-script', plugins_url( 'assets/dist/js/admin.js', __FILE__ ), array( 'jquery' ), '1.0', true );
+			wp_enqueue_style( 'chatdope-admin', plugins_url( 'assets/dist/css/backend.css', __FILE__ ) );
+			wp_enqueue_script( 'chatdope-admin', plugins_url( 'assets/dist/js/admin.js', __FILE__ ), array( 'jquery' ), '1.0', true );
 
 			// Localize the script with the translated tooltip text.
 			$translation_array = array(
 				'tooltipText' => __( 'Choose the color theme for your ChatDope interface. Select Light for a standard look or Dark (PRO version) for a sleek, professional appearance.', 'chatdope' ),
 			);
-			wp_localize_script( 'chatdope-admin-script', 'chatdope_admin_translation', $translation_array );
+			wp_localize_script( 'chatdope-admin', 'chatdope_admin_translation', $translation_array );
 		}
 
 		/**
@@ -85,8 +85,12 @@ if ( ! class_exists( 'ChatDope' ) ) {
 		 * @since 1.0.0
 		 */
 		public function enqueue_public_scripts_styles() {
-			wp_enqueue_style( 'chatdope-public-style', plugins_url( 'assets/dist/css/frontend.css', __FILE__ ) );
-			wp_enqueue_script( 'chatdope-public-script', plugins_url( 'assets/dist/js/public.js', __FILE__ ), array( 'jquery' ), '1.0', true );
+			// Enqueue Open Sans Google Font
+			wp_enqueue_style( 'google-fonts-open-sans', 'https://fonts.googleapis.com/css?family=Open+Sans:400,700', false );
+
+			// Enqueue ChatDope Styles and Scripts
+			wp_enqueue_style( 'chatdope-public', plugins_url( 'assets/dist/css/frontend.css', __FILE__ ) );
+			wp_enqueue_script( 'chatdope-public', plugins_url( 'assets/dist/js/public.js', __FILE__ ), array( 'jquery' ), '1.0', true );
 		}
 
 		/**
