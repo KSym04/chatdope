@@ -4,6 +4,7 @@ $gray: #c4c4c4;
 $blue: #007bff;
 $white: #ffffff;
 $green: #28a745;
+$red: #dc3545;
 
 $font-family: "Open Sans", sans-serif;
 
@@ -12,7 +13,7 @@ $font-family: "Open Sans", sans-serif;
 	bottom: 0;
 	right: 20px;
 	width: 300px;
-	height: 500px;
+	height: 425px;
 	font-family: $font-family;
 	background-color: $white;
 	border: 1px solid $light-gray;
@@ -27,22 +28,58 @@ $font-family: "Open Sans", sans-serif;
 		font-family: $font-family;
 		font-weight: bold;
 		font-size: 14px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 
-		.status-dot {
-			display: inline-block;
-			width: 8px;
-			height: 8px;
-			border-radius: 50%;
-			margin-left: 5px;
-			position: relative;
-			top: -1px;
+		&-info {
+			display: flex;
+			align-items: center;
 
-			&--online {
-				background-color: $green;
+			.user-name {
+				font-family: $font-family;
+				font-weight: bold;
+				font-size: 14px;
 			}
 
-			&--offline {
-				background-color: $gray;
+			.status-dot {
+				display: inline-block;
+				width: 8px;
+				height: 8px;
+				border-radius: 50%;
+				margin-left: 5px;
+
+				&--online {
+					background-color: $green;
+				}
+
+				&--offline {
+					background-color: $gray;
+				}
+			}
+		}
+
+		&-controls {
+			display: flex;
+
+			&-button {
+				background: transparent;
+				border: none;
+				cursor: pointer;
+				margin-left: 10px;
+
+				svg {
+					width: 15px;
+					height: 15px;
+					fill: $white;
+					stroke: $white;
+					stroke-width: 2px;
+				}
+			}
+
+			#chatdope-close svg {
+				fill: $white;
+				stroke: $white;
 			}
 		}
 	}
