@@ -1,6 +1,6 @@
 # ChatDope
 
-![ChatDope Preview](https://www.dopethemes.com/wp-content/uploads/2023/08/chatdope-screenshot-1.png)
+<img src="https://www.dopethemes.com/wp-content/uploads/2023/08/chatdope-screenshot-1.png" alt="ChatDope Preview" width="350" />
 
 ChatDope is a modern and engaging chat system for WordPress, providing real-time communication capabilities.
 
