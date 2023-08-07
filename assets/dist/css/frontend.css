@@ -128,4 +128,39 @@
   top: 1px;
 }
 
+#chatdope-chats {
+  display: flex;
+  flex-direction: column-reverse;
+  overflow-y: auto;
+  clear: both;
+}
+
+.chat-message {
+  display: flex;
+  padding: 8px 15px;
+  border-radius: 15px;
+  margin: 4px;
+  max-width: 70%;
+  font-size: 13px;
+  word-break: break-all;
+}
+
+/* Sender's (your) messages */
+.sender {
+  background-color: #0084ff;
+  color: #ffffff;
+  align-self: flex-end;
+  margin-right: 10px;
+  border-bottom-right-radius: 0; /* Flat edge on the bottom right for sender */
+}
+
+/* Receiver's (reply) messages */
+.receiver {
+  background-color: #f1f0f0;
+  color: #000000;
+  align-self: flex-start;
+  margin-left: 10px;
+  border-bottom-left-radius: 0; /* Flat edge on the bottom left for receiver */
+}
+
 /*# sourceMappingURL=frontend.css.map*/
