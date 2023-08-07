@@ -49,8 +49,7 @@ Yes, ChatDope is translation-ready and can be localized to your desired language
 
 == Screenshots ==
 
-1. Example of chat interface.
-2. ChatDope settings page.
+1. ChatDope window chat preview.
 
 == Changelog ==
 
