@@ -11,7 +11,7 @@ $font-family: "Open Sans", sans-serif;
 .chatdope-container {
 	position: fixed;
 	bottom: 0;
-	right: 20px;
+	right: 40px;
 	width: 300px;
 	height: 425px;
 	font-family: $font-family;
@@ -21,7 +21,7 @@ $font-family: "Open Sans", sans-serif;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
 	&__user-header {
-		padding: 8px 15px;
+		padding: 10px 15px;
 		border-bottom: 1px solid $light-gray;
 		background-color: $blue;
 		color: $white;
@@ -31,6 +31,7 @@ $font-family: "Open Sans", sans-serif;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+		border-radius: 6px 6px 0 0;
 
 		&-info {
 			display: flex;
@@ -114,8 +115,8 @@ $font-family: "Open Sans", sans-serif;
 			resize: none;
 			outline: none;
 			height: 1.5em;
-			min-height: 1em;
-			max-height: 5em;
+			min-height: 1.5em;
+			max-height: 6.5em;
 		}
 	}
 
@@ -142,6 +143,9 @@ $font-family: "Open Sans", sans-serif;
 				height: 20px;
 				fill: $white;
 				color: $blue;
+				position: relative;
+				left: -1px;
+				top: 1px;
 			}
 		}
 	}

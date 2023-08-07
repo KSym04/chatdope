@@ -30,21 +30,21 @@ var __webpack_exports__ = {};
 
 document.addEventListener("DOMContentLoaded", function () {
   var textArea = document.getElementById("chatdope-input");
-  var inputBoxWrapper = document.querySelector(".chatdope-container__input-box");
-  var maxRows = 5;
-  var minRows = 1;
-  var singleRowHeight = textArea.scrollHeight;
+  var initialHeight = textArea.offsetHeight; // Get the original height
+  var singleLineHeight = textArea.clientHeight; // Single line height without padding
+
+  textArea.style.overflowY = "hidden"; // Hide overflow initially
+
   textArea.addEventListener("input", function () {
     this.style.height = "auto";
-    var lines = this.value.split("\n");
-    if (this.value === "") {
-      // if there's no text, return the textarea to its original size
-      this.style.height = singleRowHeight + "px";
-      inputBoxWrapper.style.height = "auto";
-    } else if (lines.length > minRows && lines.length <= maxRows) {
-      // otherwise, if the number of lines is between 2 and 5, adjust the height
-      this.style.height = this.scrollHeight + "px";
-      inputBoxWrapper.style.height = this.scrollHeight + "px";
+    if (this.value.trim() === "") {
+      this.style.height = initialHeight + "px"; // Reset to original height if blank
+      return;
+    }
+    if (this.scrollHeight > singleLineHeight) {
+      this.style.height = this.scrollHeight + "px"; // Adjust height to fit content
+    } else {
+      this.style.height = initialHeight + "px"; // Keep original height if one line
     }
   });
 });
