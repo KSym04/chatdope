@@ -32,7 +32,7 @@ class ChatDope_Frontend {
 			$online_status     = $this->check_online_status( $current_user );
 			$dot_class         = ( $online_status ) ? 'status-dot--online' : 'status-dot--offline';
 		} else {
-			$user_display_name = esc_html__( 'Guest', 'chatdope' );
+			$user_display_name = esc_html__( 'User', 'chatdope' );
 			$dot_class         = 'status-dot--offline';
 		}
 

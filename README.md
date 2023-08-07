@@ -1,5 +1,7 @@
 # ChatDope
 
+![ChatDope Preview](https://www.dopethemes.com/wp-content/uploads/2023/08/screenshot-dopetest.local-2023.08.07-18_01_04.png)
+
 ChatDope is a modern and engaging chat system for WordPress, providing real-time communication capabilities.
 
 ### Why ChatDope?
