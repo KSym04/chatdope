@@ -1,4 +1,4 @@
-# ChatDope
+# ChatDope Beta (on-going development)
 
 <img src="https://www.dopethemes.com/wp-content/uploads/2023/08/chatdope-screenshot-1.png" alt="ChatDope Preview" width="350" />
 
