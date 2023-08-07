@@ -1,7 +1,5 @@
 # ChatDope Beta (on-going development)
 
-<img src="https://www.dopethemes.com/wp-content/uploads/2023/08/chatdope-screenshot-1.png" alt="ChatDope Preview" width="350" />
-
 ChatDope is a modern and engaging chat system for WordPress, providing real-time communication capabilities.
 
 ### Why ChatDope?
@@ -42,8 +40,9 @@ Yes, ChatDope is translation-ready and can be localized to your desired language
 
 ## Screenshots
 
-1. Example of chat interface.
-2. ChatDope settings page.
+1. ChatDope window chat preview.
+
+<img src="https://www.dopethemes.com/wp-content/uploads/2023/08/chatdope-screenshot-1.png" alt="ChatDope Preview" width="350" />
 
 ## Changelog
 
