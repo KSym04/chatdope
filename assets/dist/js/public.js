@@ -44,6 +44,12 @@ document.addEventListener("DOMContentLoaded", function () {
   /** @type {string} SVG content for minimize button. */
   var minimizeSVG = "<line x1=\"5\" y1=\"12\" x2=\"19\" y2=\"12\"/>";
 
+  /** @type {Date} Time of the last appended message. */
+  var previousTime = new Date();
+
+  /** @type {boolean} Timestamp insert status. */
+  var timestampInserted = false;
+
   // Hide overflow initially
   textArea.style.overflowY = "hidden";
 
@@ -128,13 +134,54 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   /**
+   * Formats the timestamp for the chat message.
+   * @param {Date} previousTime - The timestamp of the previous message.
+   * @param {Date} currentTime - The timestamp of the current message.
+   * @return {string} The formatted timestamp or an empty string.
+   */
+  function formatTimestamp(previousTime, currentTime) {
+    var timeDifference = currentTime - previousTime;
+    var fiveMinutes = 5 * 60 * 1000; // 5 minutes in milliseconds
+
+    if (timeDifference > fiveMinutes) {
+      // If the time difference is more than 5 minutes, return the formatted time
+      return currentTime.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+    } else {
+      // If the time difference is less than or equal to 5 minutes, return an empty string
+      return "";
+    }
+  }
+
+  /**
    * Appends a message to the chat container.
    * @param {string} message - The message to append.
    */
   function appendMessage(message) {
+    var currentTime = new Date();
+    var timestamp = formatTimestamp(previousTime, currentTime);
+
+    // Check if it's the initial chat or if there's a valid timestamp and no timestamp has been inserted
+    if ((previousTime === null || timestamp) && !timestampInserted) {
+      var timeDiv = document.createElement("div");
+      timeDiv.className = "chat-message__timestamp";
+      timeDiv.textContent = timestamp || currentTime.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit"
+      }); // Use the current time if it's the initial chat
+      chatContainer.insertBefore(timeDiv, chatContainer.firstChild);
+      timestampInserted = true; // Mark that the timestamp has been inserted
+    }
+
+    previousTime = currentTime;
     var messageDiv = document.createElement("div");
     messageDiv.className = "chat-message sender";
-    messageDiv.textContent = message;
+    var textDiv = document.createElement("div");
+    textDiv.className = "chat-message__text";
+    textDiv.textContent = message;
+    messageDiv.appendChild(textDiv);
     chatContainer.insertBefore(messageDiv, chatContainer.firstChild);
   }
 

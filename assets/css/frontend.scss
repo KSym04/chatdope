@@ -158,11 +158,6 @@ $font-family: "Open Sans", sans-serif;
 	clear: both;
 }
 
-#chatdope-close {
-	margin-right: 0;
-	padding-right: 0;
-}
-
 .chat-message {
 	display: flex;
 	padding: 8px 15px;
@@ -171,6 +166,23 @@ $font-family: "Open Sans", sans-serif;
 	max-width: 70%;
 	font-size: 13px;
 	word-break: break-all;
+
+	&__time {
+		font-size: 10px;
+		color: #777777;
+		text-align: center;
+	}
+
+	&__timestamp {
+		font-size: 10px;
+		text-align: center;
+		padding: 10px;
+	}
+}
+
+#chatdope-close {
+	margin-right: 0;
+	padding-right: 0;
 }
 
 /* Sender's (your) messages */
@@ -191,7 +203,9 @@ $font-family: "Open Sans", sans-serif;
 	border-bottom-left-radius: 0; /* Flat edge on the bottom left for receiver */
 }
 
-.chatdope-minimized .chatdope-container__chats,
-.chatdope-minimized .chatdope-container__input-box {
-	display: none; /* hides the chat content and input when minimized */
+.chatdope-minimized {
+	.chatdope-container__chats,
+	.chatdope-container__input-box {
+		display: none; /* hides the chat content and input when minimized */
+	}
 }
