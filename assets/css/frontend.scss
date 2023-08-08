@@ -185,3 +185,8 @@ $font-family: "Open Sans", sans-serif;
 	margin-left: 5px;
 	border-bottom-left-radius: 0; /* Flat edge on the bottom left for receiver */
 }
+
+.chatdope-minimized .chatdope-container__chats,
+.chatdope-minimized .chatdope-container__input-box {
+	display: none; /* hides the chat content and input when minimized */
+}

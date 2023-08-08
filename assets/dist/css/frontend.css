@@ -163,4 +163,9 @@
   border-bottom-left-radius: 0; /* Flat edge on the bottom left for receiver */
 }
 
+.chatdope-minimized .chatdope-container__chats,
+.chatdope-minimized .chatdope-container__input-box {
+  display: none; /* hides the chat content and input when minimized */
+}
+
 /*# sourceMappingURL=frontend.css.map*/

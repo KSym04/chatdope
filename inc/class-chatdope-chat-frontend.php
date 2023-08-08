@@ -81,7 +81,6 @@ class ChatDope_Frontend {
 			echo '</div>';
 
 		echo '</div>';
-
 	}
 
 	/**
