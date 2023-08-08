@@ -122,9 +122,40 @@ if ( ! class_exists( 'ChatDope' ) ) {
 		 * @since 1.0.0
 		 */
 		private function load_dependencies() {
-			require_once plugin_dir_path( __FILE__ ) . 'inc/class-chatdope-admin.php'; // Include admin class
-			require_once plugin_dir_path( __FILE__ ) . 'inc/class-chatdope-chat-model.php'; // Include chat model class
-			require_once plugin_dir_path( __FILE__ ) . 'inc/class-chatdope-chat-frontend.php'; // Include chat frontend class
+			spl_autoload_register( array( $this, 'autoload_classes' ) );
+		}
+
+		/**
+		 * Autoload the classes needed for the plugin.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $class_name Name of the class to load.
+		 */
+		public function autoload_classes( $class_name ) {
+			if ( strpos( $class_name, 'ChatDope_' ) === 0 ) {
+				$base_path = plugin_dir_path( __FILE__ ) . 'inc/';
+				$filename = 'class-' . strtolower( str_replace( '_', '-', $class_name ) ) . '.php';
+
+				// Check in the classes directory
+				$path_to_class = $base_path . 'classes/' . $filename;
+				if ( file_exists( $path_to_class ) ) {
+					require_once $path_to_class;
+				} else {
+					// Log an error if the class file does not exist
+					error_log( "Failed to autoload class {$class_name}. Expected path: {$path_to_class}" );
+				}
+
+				// Autoload vendor files without specific naming rules
+				foreach ( glob( $base_path . 'vendor/*.php' ) as $filename ) {
+					require_once $filename;
+				}
+
+				// Autoload function files with "function-" prefix
+				foreach ( glob( $base_path . 'functions/function-*.php' ) as $filename ) {
+					require_once $filename;
+				}
+			}
 		}
 
 		/**
