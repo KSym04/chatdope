@@ -106,6 +106,11 @@ document.addEventListener("DOMContentLoaded", function () {
   var closeButton = document.getElementById("chatdope-close");
   var chatdopeContainer = document.querySelector(".chatdope-container");
   var minimizeSVG = "<line x1=\"5\" y1=\"12\" x2=\"19\" y2=\"12\"/>";
+
+  /**
+   * Minimizes the chat window.
+   * @function
+   */
   function minimize() {
     var containerHeight = chatdopeContainer.clientHeight;
     var headerHeight = document.querySelector(".chatdope-container__user-header").clientHeight;
@@ -115,15 +120,30 @@ document.addEventListener("DOMContentLoaded", function () {
     minimizeButton.innerHTML = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path d=\"M5 19l14-14M15 5l4 0M19 9l0-4\"/></svg>";
     localStorage.setItem("chatdopeMinimized", "true");
   }
+
+  /**
+   * Maximizes the chat window.
+   * @function
+   */
   function maximize() {
     chatdopeContainer.style.bottom = "0";
     chatdopeContainer.classList.remove("chatdope-minimized");
     minimizeButton.innerHTML = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\">".concat(minimizeSVG, "</svg>");
     localStorage.setItem("chatdopeMinimized", "false");
   }
+
+  /**
+   * Toggles between minimizing and maximizing the chat window.
+   * @function
+   */
   function toggleMinimizeMaximize() {
     chatdopeContainer.classList.contains("chatdope-minimized") ? maximize() : minimize();
   }
+
+  /**
+   * Initializes the chat window's state based on the current local storage and session storage settings.
+   * @function
+   */
   function initializeChatState() {
     var isMinimized = localStorage.getItem("chatdopeMinimized") === "true";
     if (isMinimized) {
@@ -144,7 +164,7 @@ document.addEventListener("DOMContentLoaded", function () {
     sessionStorage.setItem("chatdopeClosed", "true");
   });
 
-  // Initialize the chat state based on localStorage
+  // Initialize the chat state based on localStorage and sessionStorage
   initializeChatState();
 });
 })();
