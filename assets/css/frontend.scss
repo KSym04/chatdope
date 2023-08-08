@@ -49,7 +49,7 @@ $font-family: "Open Sans", sans-serif;
 				width: 8px;
 				height: 8px;
 				border-radius: 50%;
-				margin-left: 5px;
+				margin-left: 8px;
 
 				&--online {
 					background-color: $green;
@@ -68,7 +68,6 @@ $font-family: "Open Sans", sans-serif;
 				background: transparent;
 				border: none;
 				cursor: pointer;
-				margin-left: 10px;
 
 				svg {
 					width: 15px;
@@ -157,6 +156,11 @@ $font-family: "Open Sans", sans-serif;
 	flex-direction: column-reverse;
 	overflow-y: auto;
 	clear: both;
+}
+
+#chatdope-close {
+	margin-right: 0;
+	padding-right: 0;
 }
 
 .chat-message {

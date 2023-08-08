@@ -24,38 +24,25 @@ var __webpack_exports__ = {};
 /**
  * Initializes the chat input behavior.
  * Resizes the input field based on its content, handles the Enter key to send messages, and appends messages to the chat container.
- * @function
  */
 document.addEventListener("DOMContentLoaded", function () {
-  /**
-   * Reference to the chat messages container element.
-   * @type {HTMLElement}
-   */
+  /** @type {HTMLElement} Reference to the chat messages container element. */
   var chatContainer = document.getElementById("chatdope-chats");
 
-  /**
-   * Reference to the chat input textarea element.
-   * @type {HTMLTextAreaElement}
-   */
+  /** @type {HTMLTextAreaElement} Reference to the chat input textarea element. */
   var textArea = document.getElementById("chatdope-input");
 
-  /**
-   * Reference to the send button of chat message.
-   * @type {HTMLElement}
-   */
+  /** @type {HTMLElement} Reference to the send button of chat message. */
   var sendButton = document.getElementById("chatdope-send");
 
-  /**
-   * Original height of the textarea when the page is loaded.
-   * @type {number}
-   */
+  /** @type {number} Original height of the textarea when the page is loaded. */
   var initialHeight = textArea.offsetHeight;
 
-  /**
-   * Height of a single line within the textarea, excluding padding.
-   * @type {number}
-   */
+  /** @type {number} Height of a single line within the textarea, excluding padding. */
   var singleLineHeight = textArea.clientHeight;
+
+  /** @type {string} SVG content for minimize button. */
+  var minimizeSVG = "<line x1=\"5\" y1=\"12\" x2=\"19\" y2=\"12\"/>";
 
   // Hide overflow initially
   textArea.style.overflowY = "hidden";
@@ -64,7 +51,40 @@ document.addEventListener("DOMContentLoaded", function () {
    * Event handler for text input within the textarea.
    * Adjusts the textarea's height based on its content.
    */
-  textArea.addEventListener("input", function () {
+  textArea.addEventListener("input", handleInput);
+
+  /**
+   * Event handler for the Enter key within the textarea.
+   * Appends messages to the chat container and clears the input.
+   */
+  textArea.addEventListener("keyup", function (e) {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
+  // Event handler for the send button
+  sendButton.addEventListener("click", sendMessage);
+
+  /** @type {HTMLElement} Reference to the minimize button. */
+  var minimizeButton = document.getElementById("chatdope-minimize");
+  minimizeButton.addEventListener("click", toggleMinimizeMaximize);
+
+  /** @type {HTMLElement} Reference to the close button. */
+  var closeButton = document.getElementById("chatdope-close");
+  closeButton.addEventListener("click", closeChat);
+
+  /** @type {HTMLElement} Reference to the chat container. */
+  var chatdopeContainer = document.querySelector(".chatdope-container");
+
+  // Initialize the chat state based on localStorage and sessionStorage
+  initializeChatState();
+
+  /**
+   * Handles the resizing of the text area based on its content.
+   */
+  function handleInput() {
     // Reset to auto height for proper calculation
     this.style.height = "auto";
 
@@ -76,68 +96,50 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Resize textarea based on content and max height (5 lines)
-    if (this.scrollHeight > singleLineHeight && this.scrollHeight <= singleLineHeight * 5) {
-      this.style.height = this.scrollHeight + "px";
-    } else if (this.scrollHeight > singleLineHeight * 5) {
-      this.style.height = singleLineHeight * 5 + "px";
-      this.style.overflowY = "auto";
-    } else {
-      this.style.height = initialHeight + "px";
-    }
-  });
+    resizeTextArea(this);
+  }
 
   /**
-   * Event handler for the Enter key within the textarea.
-   * Appends messages to the chat container and clears the input.
+   * Resizes the textarea based on content and max height (5 lines).
+   * @param {HTMLTextAreaElement} textAreaElement - The text area element to resize.
    */
-  textArea.addEventListener("keyup", function (e) {
-    if (e.key === "Enter" && this.value.trim() !== "") {
-      e.preventDefault();
-
-      // Create and append the message to the chat container
-      var messageDiv = document.createElement("div");
-      messageDiv.className = "chat-message sender";
-      messageDiv.textContent = this.value.trim();
-      chatContainer.insertBefore(messageDiv, chatContainer.firstChild); // Insert at the beginning
-
-      // Clear the input and reset to original height
-      this.value = "";
-      this.style.height = initialHeight + "px";
-      this.style.overflowY = "hidden";
+  function resizeTextArea(textAreaElement) {
+    if (textAreaElement.scrollHeight > singleLineHeight && textAreaElement.scrollHeight <= singleLineHeight * 5) {
+      textAreaElement.style.height = textAreaElement.scrollHeight + "px";
+    } else if (textAreaElement.scrollHeight > singleLineHeight * 5) {
+      textAreaElement.style.height = singleLineHeight * 5 + "px";
+      textAreaElement.style.overflowY = "auto";
+    } else {
+      textAreaElement.style.height = initialHeight + "px";
     }
-  });
+  }
 
   /**
    * Sends the message in the text area to the chat container.
    */
   function sendMessage() {
-    if (textArea.value.trim() !== "") {
-      // Create and append the message to the chat container
-      var messageDiv = document.createElement("div");
-      messageDiv.className = "chat-message sender";
-      messageDiv.textContent = textArea.value.trim();
-      chatContainer.insertBefore(messageDiv, chatContainer.firstChild);
-
-      // Clear the input and reset to original height
+    var trimmedMessage = textArea.value.trim();
+    if (trimmedMessage !== "" && trimmedMessage.length <= 500) {
+      appendMessage(trimmedMessage);
       textArea.value = "";
       textArea.style.height = initialHeight + "px";
       textArea.style.overflowY = "hidden";
-      textArea.setAttribute("aria-valuetext", ""); // Update ARIA value text
     }
   }
 
-  // Event handler for the send button
-  sendButton.addEventListener("click", sendMessage);
-
-  // References to control elements
-  var minimizeButton = document.getElementById("chatdope-minimize");
-  var closeButton = document.getElementById("chatdope-close");
-  var chatdopeContainer = document.querySelector(".chatdope-container");
-  var minimizeSVG = "<line x1=\"5\" y1=\"12\" x2=\"19\" y2=\"12\"/>";
+  /**
+   * Appends a message to the chat container.
+   * @param {string} message - The message to append.
+   */
+  function appendMessage(message) {
+    var messageDiv = document.createElement("div");
+    messageDiv.className = "chat-message sender";
+    messageDiv.textContent = message;
+    chatContainer.insertBefore(messageDiv, chatContainer.firstChild);
+  }
 
   /**
    * Minimizes the chat window.
-   * @function
    */
   function minimize() {
     var containerHeight = chatdopeContainer.clientHeight;
@@ -151,7 +153,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   /**
    * Maximizes the chat window.
-   * @function
    */
   function maximize() {
     chatdopeContainer.style.bottom = "0";
@@ -162,7 +163,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   /**
    * Toggles between minimizing and maximizing the chat window.
-   * @function
    */
   function toggleMinimizeMaximize() {
     chatdopeContainer.classList.contains("chatdope-minimized") ? maximize() : minimize();
@@ -170,30 +170,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
   /**
    * Initializes the chat window's state based on the current local storage and session storage settings.
-   * @function
    */
   function initializeChatState() {
     var isMinimized = localStorage.getItem("chatdopeMinimized") === "true";
-    if (isMinimized) {
-      minimize();
-    } else {
-      maximize();
-    }
+    isMinimized ? minimize() : maximize();
     var isClosed = sessionStorage.getItem("chatdopeClosed") === "true";
     if (isClosed) {
       chatdopeContainer.style.display = "none";
     }
   }
 
-  // Event listeners
-  minimizeButton.addEventListener("click", toggleMinimizeMaximize);
-  closeButton.addEventListener("click", function () {
+  /**
+   * Closes the chat window and sets the session storage.
+   */
+  function closeChat() {
     chatdopeContainer.style.display = "none";
     sessionStorage.setItem("chatdopeClosed", "true");
-  });
-
-  // Initialize the chat state based on localStorage and sessionStorage
-  initializeChatState();
+  }
 });
 })();
 

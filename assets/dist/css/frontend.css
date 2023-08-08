@@ -42,7 +42,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  margin-left: 5px;
+  margin-left: 8px;
 }
 .chatdope-container__user-header-info .status-dot--online {
   background-color: #28a745;
@@ -57,7 +57,6 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  margin-left: 10px;
 }
 .chatdope-container__user-header-controls-button svg {
   width: 15px;
@@ -134,6 +133,11 @@
   flex-direction: column-reverse;
   overflow-y: auto;
   clear: both;
+}
+
+#chatdope-close {
+  margin-right: 0;
+  padding-right: 0;
 }
 
 .chat-message {
