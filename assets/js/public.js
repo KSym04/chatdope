@@ -87,43 +87,53 @@ document.addEventListener("DOMContentLoaded", function () {
   const chatdopeContainer = document.querySelector(".chatdope-container");
   const minimizeSVG = `<line x1="5" y1="12" x2="19" y2="12"/>`;
 
-  // Event listener for minimize/maximize button
-  minimizeButton.addEventListener("click", function () {
-    if (chatdopeContainer.classList.contains("chatdope-minimized")) {
-      // Maximize
-      chatdopeContainer.style.bottom = "0"; // Reset the bottom property
-      chatdopeContainer.classList.remove("chatdope-minimized");
-      minimizeButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">${minimizeSVG}</svg>`; // Minimize icon
-      localStorage.setItem("chatdopeMinimized", "false");
-    } else {
-      // Minimize
-      let containerHeight = chatdopeContainer.clientHeight;
-      let headerHeight = document.querySelector(
-        ".chatdope-container__user-header"
-      ).clientHeight;
-      let minimizeHeight = containerHeight - headerHeight;
-      chatdopeContainer.style.bottom = `-${minimizeHeight}px`; // Pull down the container by the calculated height
-      chatdopeContainer.classList.add("chatdope-minimized");
-      minimizeButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 19l14-14M15 5l4 0M19 9l0-4"/></svg>`; // New maximize icon
-      localStorage.setItem("chatdopeMinimized", "true");
-    }
-  });
+  function minimize() {
+    const containerHeight = chatdopeContainer.clientHeight;
+    const headerHeight = document.querySelector(
+      ".chatdope-container__user-header"
+    ).clientHeight;
+    const minimizeHeight = containerHeight - headerHeight;
+    chatdopeContainer.style.bottom = `-${minimizeHeight}px`;
+    chatdopeContainer.classList.add("chatdope-minimized");
+    minimizeButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 19l14-14M15 5l4 0M19 9l0-4"/></svg>`;
+    localStorage.setItem("chatdopeMinimized", "true");
+  }
 
-  // Function to update the minimize/maximize icon
-  function updateMinimizeMaximizeIcon() {
-    if (chatdopeContainer.classList.contains("chatdope-minimized")) {
-      minimizeButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 19l14-14M15 5l4 0M19 9l0-4"/></svg>`; // New maximize SVG
+  function maximize() {
+    chatdopeContainer.style.bottom = "0";
+    chatdopeContainer.classList.remove("chatdope-minimized");
+    minimizeButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">${minimizeSVG}</svg>`;
+    localStorage.setItem("chatdopeMinimized", "false");
+  }
+
+  function toggleMinimizeMaximize() {
+    chatdopeContainer.classList.contains("chatdope-minimized")
+      ? maximize()
+      : minimize();
+  }
+
+  function initializeChatState() {
+    const isMinimized = localStorage.getItem("chatdopeMinimized") === "true";
+    if (isMinimized) {
+      minimize();
     } else {
-      minimizeButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">${minimizeSVG}</svg>`;
+      maximize();
+    }
+
+    const isClosed = sessionStorage.getItem("chatdopeClosed") === "true";
+    if (isClosed) {
+      chatdopeContainer.style.display = "none";
     }
   }
 
-  // Update the minimize/maximize icon on page load
-  updateMinimizeMaximizeIcon();
+  // Event listeners
+  minimizeButton.addEventListener("click", toggleMinimizeMaximize);
 
-  // Event listener for close button
   closeButton.addEventListener("click", function () {
     chatdopeContainer.style.display = "none";
-    localStorage.setItem("chatdopeClosed", "true");
+    sessionStorage.setItem("chatdopeClosed", "true");
   });
+
+  // Initialize the chat state based on localStorage
+  initializeChatState();
 });
