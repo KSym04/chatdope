@@ -5,16 +5,22 @@
  */
 document.addEventListener("DOMContentLoaded", function () {
   /**
+   * Reference to the chat messages container element.
+   * @type {HTMLElement}
+   */
+  const chatContainer = document.getElementById("chatdope-chats");
+
+  /**
    * Reference to the chat input textarea element.
    * @type {HTMLTextAreaElement}
    */
   const textArea = document.getElementById("chatdope-input");
 
   /**
-   * Reference to the chat messages container element.
+   * Reference to the send button of chat message.
    * @type {HTMLElement}
    */
-  const chatContainer = document.getElementById("chatdope-chats");
+  const sendButton = document.getElementById("chatdope-send");
 
   /**
    * Original height of the textarea when the page is loaded.
@@ -80,6 +86,28 @@ document.addEventListener("DOMContentLoaded", function () {
       this.style.overflowY = "hidden";
     }
   });
+
+  /**
+   * Sends the message in the text area to the chat container.
+   */
+  function sendMessage() {
+    if (textArea.value.trim() !== "") {
+      // Create and append the message to the chat container
+      const messageDiv = document.createElement("div");
+      messageDiv.className = "chat-message sender";
+      messageDiv.textContent = textArea.value.trim();
+      chatContainer.insertBefore(messageDiv, chatContainer.firstChild);
+
+      // Clear the input and reset to original height
+      textArea.value = "";
+      textArea.style.height = initialHeight + "px";
+      textArea.style.overflowY = "hidden";
+      textArea.setAttribute("aria-valuetext", ""); // Update ARIA value text
+    }
+  }
+
+  // Event handler for the send button
+  sendButton.addEventListener("click", sendMessage);
 
   // References to control elements
   const minimizeButton = document.getElementById("chatdope-minimize");
