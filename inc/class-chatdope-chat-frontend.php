@@ -36,43 +36,43 @@ class ChatDope_Frontend {
 			$dot_class         = 'status-dot--offline';
 		}
 
-		echo '<div class="chatdope-container">';
+		echo '<div class="chatdope-container" role="dialog" aria-labelledby="chatdope-title">';
 
 			echo '<div class="chatdope-container__user-header">';
 				echo '<div class="chatdope-container__user-header-info">';
-					echo '<span class="user-name">' . esc_html( $user_display_name ) . '</span>';
-					echo '<span class="status-dot ' . esc_attr( $dot_class ) . '"></span>';
+					echo '<span class="user-name" id="chatdope-title">' . esc_html( $user_display_name ) . '</span>';
+					echo '<span class="status-dot ' . esc_attr( $dot_class ) . '" aria-hidden="true"></span>';
 				echo '</div>';
 
 				echo '<div class="chatdope-container__user-header-controls">';
 					// Minimize button.
-					echo '<div class="chatdope-container__user-header-controls-button" id="chatdope-minimize">';
+					echo '<button class="chatdope-container__user-header-controls-button" id="chatdope-minimize" aria-label="' . esc_html__( 'Minimize', 'chatdope' ) . '">';
 						echo '<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">';
 							echo '<line x1="5" y1="12" x2="19" y2="12"></line>';
 						echo '</svg>';
-					echo '</div>';
+					echo '</button>';
 
 					// Close button.
-					echo '<div class="chatdope-container__user-header-controls-button" id="chatdope-close">';
+					echo '<button class="chatdope-container__user-header-controls-button" id="chatdope-close" aria-label="' . esc_html__( 'Close', 'chatdope' ) . '">';
 						echo '<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">';
 							echo '<line x1="18" y1="6" x2="6" y2="18"></line>';
 							echo '<line x1="6" y1="6" x2="18" y2="18"></line>';
 						echo '</svg>';
-					echo '</div>';
+					echo '</button>';
 				echo '</div>';
 
 			echo '</div>';
 
 			// Main chat window.
-			echo '<div id="chatdope-chats" class="chatdope-container__chats"></div>';
+			echo '<div id="chatdope-chats" class="chatdope-container__chats" role="log" aria-live="polite"></div>';
 
 			echo '<div class="chatdope-container__input-box">';
 				echo '<div class="chatdope-container__input">';
-					echo '<textarea id="chatdope-input" class="chatdope-container__input-text" placeholder="' . esc_html__( 'Type a message...', 'chatdope' ) . '"></textarea>';
+					echo '<textarea id="chatdope-input" class="chatdope-container__input-text" placeholder="' . esc_html__( 'Type a message...', 'chatdope' ) . '" role="textbox" aria-multiline="true" aria-label="' . esc_html__( 'Type a message', 'chatdope' ) . '"></textarea>';
 				echo '</div>';
 
 				echo '<div class="chatdope-container__submit">';
-					echo '<button id="chatdope-send" class="chatdope-container__submit-button">';
+					echo '<button id="chatdope-send" class="chatdope-container__submit-button" aria-label="Send">';
 						echo '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="chatdope-container__submit-icon">';
 							echo '<path d="M22 2 15 22 11 13 2 9 22 2z"></path>';
 						echo '</svg>';
@@ -81,7 +81,6 @@ class ChatDope_Frontend {
 			echo '</div>';
 
 		echo '</div>';
-
 	}
 
 	/**
