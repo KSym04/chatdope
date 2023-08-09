@@ -162,11 +162,11 @@
 
 /* Sender's (your) messages */
 .sender {
-  background-color: #0084ff;
+  background-color: #007bff;
   color: #ffffff;
   align-self: flex-end;
   margin-right: 5px;
-  border-bottom-right-radius: 0; /* Flat edge on the bottom right for sender */
+  border-bottom-right-radius: 0;
 }
 
 /* Receiver's (reply) messages */
@@ -175,12 +175,12 @@
   color: #000000;
   align-self: flex-start;
   margin-left: 5px;
-  border-bottom-left-radius: 0; /* Flat edge on the bottom left for receiver */
+  border-bottom-left-radius: 0;
 }
 
 .chatdope-minimized .chatdope-container__chats,
 .chatdope-minimized .chatdope-container__input-box {
-  display: none; /* hides the chat content and input when minimized */
+  display: none;
 }
 
 /*# sourceMappingURL=frontend.css.map*/
