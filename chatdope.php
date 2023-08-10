@@ -3,7 +3,7 @@
  * Plugin Name: ChatDope
  * Plugin URI: https://www.dopethemes.com/downloads/chatdope/
  * Description: A modern and engaging chat system for WordPress.
- * Version: 1.0
+ * Version: 1.0.0
  * Author: DopeThemes
  * Author URI: https://www.dopethemes.com
  * Text Domain: chatdope
@@ -47,36 +47,48 @@ if ( ! class_exists( 'ChatDope' ) ) {
 	class ChatDope {
 
 		/**
-		 * ChatDope constructor.
+		 * The current version of the plugin.
 		 *
-		 * Initializes the plugin by registering actions, filters, and loading dependencies.
-		 *
-		 * @since 1.0.0
-		 */
-		public function __construct() {
-			$this->load_dependencies(); // Load required files and classes
-			$this->define_admin_hooks(); // Set up admin-related hooks
-			$this->define_frontend_hooks(); // Set up frontend-related hooks
-			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts_styles' ) ); // Enqueue admin scripts and styles
-			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_public_scripts_styles' ) ); // Enqueue public scripts and styles
-		}
-
-		/**
-		 * Enqueue the necessary scripts and styles for the admin area.
-		 * Includes the CSS and JS files used within the admin dashboard.
+		 * This value is used to manage changes between different versions of the plugin
+		 * and can be utilized to handle upgrades, enqueue assets, or other version-specific logic.
 		 *
 		 * @since 1.0.0
+		 * @var string
 		 */
-		public function enqueue_admin_scripts_styles() {
-			wp_enqueue_style( 'chatdope-admin', plugins_url( 'assets/dist/css/backend.css', __FILE__ ) );
-			wp_enqueue_script( 'chatdope-admin', plugins_url( 'assets/dist/js/admin.js', __FILE__ ), array( 'jquery' ), '1.0', true );
+		public $version = '1.0.0';
 
-			// Localize the script with the translated tooltip text.
-			$translation_array = array(
-				'tooltipText' => __( 'Choose the color theme for your ChatDope interface. Select Light for a standard look or Dark (PRO version) for a sleek, professional appearance.', 'chatdope' ),
-			);
-			wp_localize_script( 'chatdope-admin', 'chatdope_admin_translation', $translation_array );
-		}
+        /**
+         * ChatDope constructor.
+         *
+         * Initializes the plugin by registering actions, filters, and loading dependencies.
+         *
+         * @since 1.0.0
+         */
+        public function __construct() {
+            $this->load_dependencies();
+            $this->define_admin_hooks();
+            $this->define_frontend_hooks();
+            add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts_styles' ) );
+            add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_public_scripts_styles' ) );
+        }
+
+        /**
+         * Enqueue the necessary scripts and styles for the admin area.
+         * Includes the CSS and JS files used within the admin dashboard.
+         *
+         * @since 1.0.0
+         */
+        public function enqueue_admin_scripts_styles() {
+            wp_enqueue_style( 'chatdope-admin', plugins_url( 'assets/dist/css/backend.css', __FILE__ ) );
+            wp_enqueue_script( 'chatdope-admin', plugins_url( 'assets/dist/js/admin.js', __FILE__ ), array( 'jquery' ), $this->version, true );
+
+			// Tooltips.
+            $translation_array = array(
+                'tooltipText' => __( 'Choose the color theme for your ChatDope interface. Select Light for a standard look or Dark (PRO version) for a sleek, professional appearance.', 'chatdope' ),
+            );
+
+            wp_localize_script( 'chatdope-admin', 'chatdope_admin_translation', $translation_array );
+        }
 
 		/**
 		 * Enqueue public-facing scripts and styles.
@@ -90,7 +102,7 @@ if ( ! class_exists( 'ChatDope' ) ) {
 
 			// Enqueue ChatDope Styles and Scripts
 			wp_enqueue_style( 'chatdope-public', plugins_url( 'assets/dist/css/frontend.css', __FILE__ ) );
-			wp_enqueue_script( 'chatdope-public', plugins_url( 'assets/dist/js/public.js', __FILE__ ), array( 'jquery' ), '1.0', true );
+			wp_enqueue_script( 'chatdope-public', plugins_url( 'assets/dist/js/public.js', __FILE__ ), array( 'jquery' ), $this->version, true );
 		}
 
 		/**
@@ -133,8 +145,9 @@ if ( ! class_exists( 'ChatDope' ) ) {
 		 * @param string $class_name Name of the class to load.
 		 */
 		public function autoload_classes( $class_name ) {
+			$base_path = plugin_dir_path( __FILE__ ) . 'inc/';
+
 			if ( strpos( $class_name, 'ChatDope_' ) === 0 ) {
-				$base_path = plugin_dir_path( __FILE__ ) . 'inc/';
 				$filename = 'class-' . strtolower( str_replace( '_', '-', $class_name ) ) . '.php';
 
 				// Check in the classes directory
@@ -145,53 +158,53 @@ if ( ! class_exists( 'ChatDope' ) ) {
 					// Log an error if the class file does not exist
 					error_log( "Failed to autoload class {$class_name}. Expected path: {$path_to_class}" );
 				}
-
-				// Autoload vendor files without specific naming rules
-				foreach ( glob( $base_path . 'vendor/*.php' ) as $filename ) {
-					require_once $filename;
-				}
-
-				// Autoload function files with "function-" prefix
-				foreach ( glob( $base_path . 'functions/function-*.php' ) as $filename ) {
-					require_once $filename;
-				}
 			}
+
+			// Autoload vendor files without specific naming rules
+            foreach ( glob( $base_path . 'vendor/*.php' ) as $filename ) {
+                require_once $filename;
+            }
+
+			// Autoload function files with "function-" prefix
+            foreach ( glob( $base_path . 'functions/function-*.php' ) as $filename ) {
+                require_once $filename;
+            }
 		}
 
-		/**
-		 * Activation hook to run when the plugin is activated.
-		 * Implement any required logic here for when the plugin is enabled.
-		 *
-		 * @since 1.0.0
-		 */
-		public static function activate() {
-			global $wpdb;
-			$charset_collate = $wpdb->get_charset_collate();
-			$table_name = $wpdb->prefix . 'chatdope_messages';
+        /**
+         * Activation hook to run when the plugin is activated.
+         * Implement any required logic here for when the plugin is enabled.
+         *
+         * @since 1.0.0
+         */
+        public static function activate() {
+            global $wpdb;
+            $charset_collate = $wpdb->get_charset_collate();
+            $table_name      = $wpdb->prefix . 'chatdope_messages';
 
-			$sql = "CREATE TABLE $table_name (
-				chat_id BIGINT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-				session_id VARCHAR(255) NOT NULL,
-				user_id BIGINT(20) UNSIGNED,
-				guest_id VARCHAR(255),
-				message TEXT NOT NULL,
-				timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-				sender ENUM('user', 'guest') NOT NULL,
-				conversation_start_timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
-			) $charset_collate;";
+            $sql = "CREATE TABLE $table_name (
+                chat_id                    BIGINT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                session_id                 VARCHAR(255) NOT NULL,
+                user_id                    BIGINT(20) UNSIGNED,
+                guest_id                   VARCHAR(255),
+                message                    TEXT NOT NULL,
+                timestamp                  DATETIME DEFAULT CURRENT_TIMESTAMP,
+                sender                     ENUM('user', 'guest') NOT NULL,
+                conversation_start_timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+            ) $charset_collate;";
 
-			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-			dbDelta( $sql );
-		}
+            require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+            dbDelta( $sql );
+        }
 
-		/**
-		 * Deactivation hook to run when the plugin is deactivated.
-		 * Implement any required logic here for cleaning up after the plugin is disabled.
-		 *
-		 * @since 1.0.0
-		 */
+        /**
+         * Deactivation hook to run when the plugin is deactivated.
+         * Implement any required logic here for cleaning up after the plugin is disabled.
+         *
+         * @since 1.0.0
+         */
 		public static function deactivate() {
-			// Deactivation code here
+			// Deactivation code here.
 		}
 	}
 
@@ -199,9 +212,9 @@ if ( ! class_exists( 'ChatDope' ) ) {
 
 // Initialize ChatDope if class exists
 if ( class_exists( 'ChatDope' ) ) {
-    $chatDope = new ChatDope(); // Instantiate main plugin class
+    $chatDope = new ChatDope();
 }
 
 // Hooks for activating and deactivating the plugin
-register_activation_hook( __FILE__, array( 'ChatDope', 'activate' ) ); // Hook activation method
-register_deactivation_hook( __FILE__, array( 'ChatDope', 'deactivate' ) ); // Hook deactivation method
+register_activation_hook( __FILE__, array( 'ChatDope', 'activate' ) );
+register_deactivation_hook( __FILE__, array( 'ChatDope', 'deactivate' ) );
