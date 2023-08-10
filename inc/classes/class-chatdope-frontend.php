@@ -26,14 +26,21 @@ class ChatDope_Frontend {
 	 */
 	public function render_chat_interface() {
 		// Check if a user is logged in
+		$chat_with_admin_only = false; // Default value
+
 		if ( is_user_logged_in() ) {
 			$current_user      = wp_get_current_user();
 			$user_display_name = ( ! empty( $current_user->user_firstname ) ) ? $current_user->user_firstname : $current_user->user_login;
 			$online_status     = $this->check_online_status( $current_user );
 			$dot_class         = ( $online_status ) ? 'status-dot--online' : 'status-dot--offline';
+
+			if ( ! current_user_can( 'manage_options' ) ) {
+				$chat_with_admin_only = true; // Set to true if non-admin
+			}
 		} else {
-			$user_display_name = esc_html__( 'User', 'chatdope' );
+			$user_display_name = esc_html__( 'Admin', 'chatdope' );
 			$dot_class         = 'status-dot--offline';
+			$chat_with_admin_only = true; // Set to true if guest
 		}
 
 		echo '<div class="chatdope-container" role="dialog" aria-labelledby="chatdope-title">';
@@ -60,7 +67,6 @@ class ChatDope_Frontend {
 						echo '</svg>';
 					echo '</button>';
 				echo '</div>';
-
 			echo '</div>';
 
 			// Main chat window.
@@ -81,6 +87,23 @@ class ChatDope_Frontend {
 			echo '</div>';
 
 		echo '</div>';
+
+		// Contact box for logged-in users who are not admins
+		if ( is_user_logged_in() && $chat_with_admin_only ) {
+			echo '<div class="chatdope-container__contact-box">';
+				echo '<div class="chatdope-container__user-header">';
+					echo '<div class="chatdope-container__user-header-info">';
+						echo '<span class="user-name" id="chatdope-title">' . esc_html__( 'Contacts', 'chatdope' ) . '</span>';
+					echo '</div>';
+				echo '</div>';
+
+				echo '<ul class="chatdope-container__contact-list">';
+					echo '<li class="chatdope-container__contact-list-item"><a href="#" data-user-id="[user_id_goes_here]">Sample Contact 1</a></li>';
+					echo '<li class="chatdope-container__contact-list-item"><a href="#" data-user-id="[user_id_goes_here]">Sample Contact 2</a></li>';
+					echo '<li class="chatdope-container__contact-list-item"><a href="#" data-user-id="[user_id_goes_here]">Sample Contact 3</a></li>';
+				echo '</ul>';
+			echo '</div>';
+		}
 	}
 
 	/**
