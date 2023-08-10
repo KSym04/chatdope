@@ -26,23 +26,24 @@ class ChatDope_Session {
 	 * @since 1.0.0
 	 *
 	 * @param int|string $user_id The user ID associated with the session.
+	 * @param string $user_type The type of user ('admin', 'user', or 'guest').
 	 */
-	public function start_session( $user_id ) {
+	public function start_session( $user_id, $user_type = 'user' ) {
 		if ( ! isset( $_SESSION['user_id'] ) ) {
-			$_SESSION['user_id'] = $user_id;
+			$_SESSION['user_id']   = $user_id;
+			$_SESSION['user_type'] = $user_type; // Added user type in session.
 		}
 	}
 
 	/**
-	 * Get a specific data from the session.
+	 * Get the user type from the session.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $key The key for the session data to retrieve.
-	 * @return mixed      The value stored in session or null.
+	 * @return string The user type stored in session or 'guest' if not found.
 	 */
-	public function get_session_data( $key ) {
-		return $_SESSION[$key] ?? null;
+	public function get_user_type() {
+		return $_SESSION['user_type'] ?? 'guest'; // Default to 'guest' if not found.
 	}
 
 	/**
