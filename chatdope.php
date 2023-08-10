@@ -192,14 +192,20 @@ if ( ! class_exists( 'ChatDope' ) ) {
 			}
 
 			// Autoload vendor files without specific naming rules
-            foreach ( glob( $base_path . 'vendor/*.php' ) as $filename ) {
-                require_once $filename;
-            }
+			foreach ( glob( $base_path . 'vendor/*.php' ) as $filename ) {
+				if ( file_exists( $filename ) ) {
+					require_once $filename;
+					error_log( "Included vendor file: {$filename}" ); // Logging included vendor file
+				}
+			}
 
 			// Autoload function files with "function-" prefix
-            foreach ( glob( $base_path . 'functions/function-*.php' ) as $filename ) {
-                require_once $filename;
-            }
+			foreach ( glob( $base_path . 'functions/function-*.php' ) as $filename ) {
+				if ( file_exists( $filename ) ) {
+					require_once $filename;
+					error_log( "Included function file: {$filename}" ); // Logging included function file
+				}
+			}
 		}
 
         /**
