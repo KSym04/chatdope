@@ -53,9 +53,22 @@ if ( ! class_exists( 'ChatDope' ) ) {
 		 * and can be utilized to handle upgrades, enqueue assets, or other version-specific logic.
 		 *
 		 * @since 1.0.0
+		 *
 		 * @var string
 		 */
 		public $version = '1.0.0';
+
+		/**
+		 * Holds the single instance of the ChatDope class.
+		 *
+		 * Ensures that only one instance of ChatDope is loaded or can be loaded.
+		 * The contents of the instance are a reference to an object that holds the unique
+		 * ChatDope instance.
+		 *
+		 * @since 1.0.0
+		 * @var ChatDope|null The single instance of the class.
+		 */
+		private static $instance = null;
 
         /**
          * ChatDope constructor.
@@ -72,6 +85,24 @@ if ( ! class_exists( 'ChatDope' ) ) {
             add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_public_scripts_styles' ) );
         }
 
+		/**
+		 * Retrieve the instance of the ChatDope class.
+		 *
+		 * This method ensures that only one instance of ChatDope exists at any time
+		 * and provides a global point of access to the instance.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @return ChatDope The single instance of the class.
+		 */
+		public static function getInstance() {
+			if ( null === self::$instance ) {
+				self::$instance = new self(); // Create a new instance if one doesn't exist
+			}
+
+			return self::$instance; // Return the single instance of the class
+		}
+
         /**
          * Enqueue the necessary scripts and styles for the admin area.
          * Includes the CSS and JS files used within the admin dashboard.
@@ -84,7 +115,7 @@ if ( ! class_exists( 'ChatDope' ) ) {
 
 			// Tooltips.
             $translation_array = array(
-                'tooltipText' => __( 'Choose the color theme for your ChatDope interface. Select Light for a standard look or Dark (PRO version) for a sleek, professional appearance.', 'chatdope' ),
+                'tooltipText' => esc_html__( 'Choose the color theme for your ChatDope interface. Select Light for a standard look or Dark (PRO version) for a sleek, professional appearance.', 'chatdope' ),
             );
 
             wp_localize_script( 'chatdope-admin', 'chatdope_admin_translation', $translation_array );
@@ -212,7 +243,7 @@ if ( ! class_exists( 'ChatDope' ) ) {
 
 // Initialize ChatDope if class exists
 if ( class_exists( 'ChatDope' ) ) {
-    $chatDope = new ChatDope();
+    $chatDope = ChatDope::getInstance();
 }
 
 // Hooks for activating and deactivating the plugin
