@@ -2,6 +2,14 @@
 
 ChatDope is a modern and engaging chat system for WordPress, providing real-time communication capabilities.
 
+**Contributors:** DopeThemes  
+**Tags:** chat, communication, support, engagement, wordpress  
+**Requires at least:** 4.4  
+**Tested up to:** 6.3  
+**Stable tag:** 1.0.0  
+**License:** GPLv3  
+**License URI:** https://www.dopethemes.com/gplv3/
+
 ### Why ChatDope?
 
 In a digital world teeming with countless chat systems, it can be challenging to find the one that truly meets your business needs. That's where ChatDope comes in.
@@ -59,7 +67,3 @@ Initial release of ChatDope, introducing exciting new chat functionality for Wor
 ## Additional Information
 
 For additional information, support, and customization inquiries, please visit [DopeThemes](https://www.dopethemes.com).
-
-## License
-
-[GPLv3](https://www.dopethemes.com/gplv3/)
