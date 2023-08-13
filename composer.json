@@ -1,0 +1,25 @@
+{
+  "name": "ksym04r/chatdope",
+  "description": "A modern and engaging chat system for WordPress.",
+  "type": "project",
+  "require": {
+    "cboden/ratchet": "^0.4.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "ChatDope\\": "inc/classes/"
+    }
+  },
+  "prefer-stable": true,
+  "authors": [
+    {
+      "name": "ksym04",
+      "email": "dev@dopethemes.com"
+    }
+  ],
+  "config": {
+    "allow-plugins": {
+      "composer/installers": true
+    }
+  }
+}
