@@ -1,5 +1,16 @@
 <?php
 /**
+ * ChatDope Namespace
+ *
+ * This namespace contains all the classes and functions related to the ChatDope plugin.
+ * It's responsible for handling chat interactions, sessions, and other related functionalities.
+ *
+ * @package ChatDope
+ * @since 1.0.0
+ */
+namespace ChatDope;
+
+/**
  * Class ChatDope_Frontend
  *
  * This class handles the frontend functionality to render the chat interface.

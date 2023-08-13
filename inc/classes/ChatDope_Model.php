@@ -1,12 +1,23 @@
 <?php
 /**
- * Class ChatDope_Chat_Model
+ * ChatDope Namespace
+ *
+ * This namespace contains all the classes and functions related to the ChatDope plugin.
+ * It's responsible for handling chat interactions, sessions, and other related functionalities.
+ *
+ * @package ChatDope
+ * @since 1.0.0
+ */
+namespace ChatDope;
+
+/**
+ * Class ChatDope_Model
  *
  * This class handles the database interactions related to chat sessions and messages.
  *
  * @since 1.0.0
  */
-class ChatDope_Chat_Model {
+class ChatDope_Model {
 
 	/**
 	 * @var string $table_name The name of the table where chat messages are stored.

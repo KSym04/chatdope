@@ -35,6 +35,9 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed outside of WordPress
 }
 
+// Require Composer autoload.
+require plugin_dir_path( __FILE__ ) . '/vendor/autoload.php';
+
 /**
  * Class ChatDope
  *
@@ -78,7 +81,7 @@ if ( ! class_exists( 'ChatDope' ) ) {
          * @since 1.0.0
          */
         public function __construct() {
-            $this->load_dependencies();
+            $this->autoload_libraries();
             $this->define_admin_hooks();
             $this->define_frontend_hooks();
             add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts_styles' ) );
@@ -143,9 +146,14 @@ if ( ! class_exists( 'ChatDope' ) ) {
 		 * @since 1.0.0
 		 */
 		private function define_admin_hooks() {
-			$admin = new ChatDope_Admin(); // Instantiate the admin class
-			add_action( 'admin_menu', array( $admin, 'add_admin_menu' ) ); // Create admin menu
-			add_action( 'admin_init', array( $admin, 'register_settings' ) ); // Register settings
+			if ( class_exists( 'ChatDope_Admin' ) ) {
+				$admin = new ChatDope_Admin(); // Instantiate the admin class
+				add_action( 'admin_menu', array( $admin, 'add_admin_menu' ) ); // Create admin menu
+				add_action( 'admin_init', array( $admin, 'register_settings' ) ); // Register settings
+			} else {
+				// Handle the error, perhaps log it
+				error_log( 'ChatDope_Admin class not found.' );
+			}
 		}
 
 		/**
@@ -159,37 +167,14 @@ if ( ! class_exists( 'ChatDope' ) ) {
 		}
 
 		/**
-		 * Load the required dependencies for this plugin.
-		 * Includes the necessary files, classes, and sets up hooks for the admin area and the public side of the site.
-		 *
-		 * @since 1.0.0
-		 */
-		private function load_dependencies() {
-			spl_autoload_register( array( $this, 'autoload_classes' ) );
-		}
-
-		/**
-		 * Autoload the classes needed for the plugin.
+		 * Autoload the classes, functions, vendor needed for the plugin.
 		 *
 		 * @since 1.0.0
 		 *
 		 * @param string $class_name Name of the class to load.
 		 */
-		public function autoload_classes( $class_name ) {
+		public function autoload_libraries() {
 			$base_path = plugin_dir_path( __FILE__ ) . 'inc/';
-
-			if ( strpos( $class_name, 'ChatDope_' ) === 0 ) {
-				$filename = 'class-' . strtolower( str_replace( '_', '-', $class_name ) ) . '.php';
-
-				// Check in the classes directory
-				$path_to_class = $base_path . 'classes/' . $filename;
-				if ( file_exists( $path_to_class ) ) {
-					require_once $path_to_class;
-				} else {
-					// Log an error if the class file does not exist
-					error_log( "Failed to autoload class {$class_name}. Expected path: {$path_to_class}" );
-				}
-			}
 
 			// Autoload vendor files without specific naming rules
 			foreach ( glob( $base_path . 'vendor/*.php' ) as $filename ) {
@@ -206,6 +191,23 @@ if ( ! class_exists( 'ChatDope' ) ) {
 					error_log( "Included function file: {$filename}" ); // Logging included function file
 				}
 			}
+		}
+
+		private static function start_server() {
+			$loop   = React\EventLoop\Factory::create();
+			$webSock = new React\Socket\Server('0.0.0.0:8080', $loop); // Listen on the given port
+
+			// Ratchet magic
+			$webServer = new Ratchet\Server\IoServer(
+				new Ratchet\Http\HttpServer(
+					new Ratchet\WebSocket\WsServer(
+						new YourWebSocketClass() // Define a class to handle WebSocket connections
+					)
+				),
+				$webSock
+			);
+
+			$loop->run(); // Start the server
 		}
 
         /**
@@ -232,6 +234,8 @@ if ( ! class_exists( 'ChatDope' ) ) {
 
             require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
             dbDelta( $sql );
+
+			self::start_server(); // Start the WebSocket server
         }
 
         /**
